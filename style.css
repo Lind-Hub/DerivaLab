@@ -1,0 +1,539 @@
+:root {
+    /* Palet Warna Utama SetLab */
+    --primary-mint: #8FCBB1;
+    --primary-soft-mint: #BFE3D0;
+    --mint-light: #EBF6F0;
+    --mint-card-bg: #E3F2EB;
+    --sky-blue: #B9DDF5;
+    --sky-blue-hover: #90CAF9;
+    --sky-blue-light: #EBF5FC;
+    --sky-blue-border: #B9DDF5;
+    --bg-page: #F5FAF7;
+    --bg-card: #FFFFFF;
+    --text-main: #26352F;
+    --text-muted: #718078;
+    --border-color: #D3E4DB;
+    --border-light: #E8F2EC;
+    
+    /* Warna Status & Aksesibilitas */
+    --success-green: #2D7A58;
+    --success-bg: #E8F5E9;
+    --error-bg: #FDF2F2;
+    --error-border: #F8B4B4;
+    --error-text: #9B1C1C;
+    
+    /* Tipografi & Layout Shadow */
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-code: 'Fira Code', monospace;
+    --shadow-sm: 0 2px 6px rgba(38, 53, 47, 0.03);
+    --shadow-md: 0 4px 16px rgba(38, 53, 47, 0.05);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding: 16px 24px;
+    min-height: 100vh;
+}
+
+.app-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Header Ringkas */
+.app-header {
+    text-align: center;
+    padding: 4px 0 8px 0;
+}
+
+.brand-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    background-color: var(--primary-soft-mint);
+    color: var(--text-main);
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.app-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.app-header h1 span {
+    color: var(--success-green);
+}
+
+.app-header .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Kartu Utama (Satu Panel Putih Besar) */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    margin-bottom: 14px;
+}
+
+.card-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.2px;
+}
+
+.card-description {
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--mint-light);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+/* Tata Letak Utama Dua Kolom Desktop (1366 x 768) */
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+/* Form Input (Kolom Kiri) */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.input-label {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--text-main);
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-card);
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-mint);
+    box-shadow: 0 0 0 3px rgba(143, 203, 177, 0.25);
+}
+
+.input-prefix {
+    padding: 10px 12px;
+    background-color: var(--mint-light);
+    border-right: 2px solid var(--border-color);
+    font-family: var(--font-code);
+    font-weight: 700;
+    color: var(--success-green);
+    font-size: 1rem;
+}
+
+#poly-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 12px;
+    font-size: 1.05rem;
+    font-family: var(--font-code);
+    color: var(--text-main);
+    background: transparent;
+}
+
+/* Tombol Aksi */
+.button-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+}
+
+.btn-primary {
+    background-color: var(--primary-mint);
+    color: var(--text-main);
+    flex: 2;
+    box-shadow: 0 2px 6px rgba(143, 203, 177, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #7DBE9F;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--sky-blue);
+    color: var(--text-main);
+    flex: 1.2;
+}
+
+.btn-secondary:hover {
+    background-color: var(--sky-blue-hover);
+    transform: translateY(-1px);
+}
+
+.btn-icon {
+    background-color: var(--mint-light);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    flex: 0 0 auto;
+}
+
+.btn-icon:hover {
+    background-color: var(--primary-soft-mint);
+}
+
+/* Petunjuk Input Ringkas */
+.input-tips {
+    background-color: #FAFCFB;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.tips-title {
+    font-weight: 700;
+    color: var(--text-main);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.input-tips ul {
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Banner Error */
+.error-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    color: var(--error-text);
+    margin-top: 12px;
+}
+
+.error-title {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.error-text {
+    font-size: 0.8rem;
+}
+
+/* Kolom Kanan: Hasil & Grafik */
+.result-box-wrapper {
+    background: linear-gradient(135deg, #E8F5E9 0%, #D0EBE0 100%);
+    border: 1px solid var(--primary-mint);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.eq-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-code);
+}
+
+.eq-label {
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    min-width: 100px;
+}
+
+.eq-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.eq-value.highlight {
+    font-size: 1.35rem;
+    color: var(--success-green);
+}
+
+/* Container Grafik Ringkas & Interaktif (280px - 300px) */
+.graph-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #FFFFFF;
+    overflow: hidden;
+    position: relative;
+}
+
+.graph-container {
+    width: 100%;
+    height: 290px;
+}
+
+.graph-fallback-msg {
+    padding: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background-color: var(--mint-light);
+    border-radius: var(--radius-md);
+}
+
+/* Langkah Penyelesaian Selebar Halaman */
+.steps-card {
+    margin-top: 4px;
+}
+
+.steps-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.step-box {
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-mint);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+}
+
+.step-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--success-green);
+    margin-bottom: 6px;
+}
+
+.step-text {
+    font-size: 0.875rem;
+    color: var(--text-main);
+    white-space: pre-line;
+}
+
+.step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.step-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rule-badge {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--sky-blue);
+    color: var(--text-main);
+    font-size: 0.725rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.calc-detail {
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    color: var(--text-main);
+    background-color: var(--mint-light);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* BAGIAN TEORI: LANDASAN TEORI TURUNAN (Gaya SetLab) */
+.theory-card {
+    margin-top: 8px;
+}
+
+.theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.theory-item {
+    background-color: var(--mint-card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.theory-item-wide {
+    grid-column: span 2;
+}
+
+.theory-item-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.theory-badge {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--primary-soft-mint);
+    color: var(--success-green);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.badge-cs {
+    background-color: var(--sky-blue);
+    color: var(--text-main);
+}
+
+.theory-item h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.theory-item p {
+    font-size: 0.825rem;
+    color: var(--text-main);
+    line-height: 1.45;
+}
+
+.theory-formula {
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--success-green);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* Panel Penjelasan Biru Muda di Bagian Bawah Teori */
+.theory-sky-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background-color: var(--sky-blue-light);
+    border: 1px solid var(--sky-blue-border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-top: 14px;
+}
+
+.sky-box-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.sky-box-content {
+    font-size: 0.825rem;
+    color: var(--text-main);
+    line-height: 1.45;
+}
+
+.sky-box-content strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #1E517B;
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+/* Responsivitas Layar */
+@media (max-width: 960px) {
+    .two-column-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .theory-item-wide {
+        grid-column: span 1;
+    }
+}

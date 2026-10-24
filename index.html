@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DerivaLab — Kalkulator Turunan Fungsi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Integration MathJax 3 untuk Render Rumus Matematika -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <!-- Plotly.js CDN untuk Visualisasi Grafik Koordinat -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Aplikasi -->
+        <header class="app-header">
+            <div class="brand-badge">Edukasi Kalkulus Diferensial</div>
+            <h1>Deriva<span>Lab</span></h1>
+            <p class="subtitle">Kalkulator Turunan Fungsi Polinomial & Visualisasi Grafik Interaktif</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Layout Utama Dua Kolom Desktop (1366 x 768) -->
+            <div class="two-column-grid">
+                
+                <!-- KOLOM KIRI: Permasalahan (Input) -->
+                <section class="card input-card">
+                    <div class="card-header">
+                        <h2>Permasalahan</h2>
+                        <p class="card-description">Masukkan fungsi polinomial dalam variabel <code>x</code> untuk menghitung turunan pertamanya.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="poly-input" class="input-label">Fungsi f(x):</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">f(x) =</span>
+                            <input type="text" id="poly-input" placeholder="Contoh: 3x^4 + 2x^2 - 5x + 7" autocomplete="off" spellcheck="false">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="calc-btn" class="btn btn-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l6-6M4 5l16 16M14 5l6 6M10 5l4 4"/></svg>
+                            Hitung Turunan
+                        </button>
+                        <button id="preset-btn" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            Isi Contoh
+                        </button>
+                        <button id="reset-btn" class="btn btn-icon" title="Reset Input & Hasil">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Petunjuk Format Input Ringkas -->
+                    <div class="input-tips">
+                        <span class="tips-title">💡 Format Input yang Didukung:</span>
+                        <ul>
+                            <li>Variabel <code>x</code> pangkat bulat non-negatif (contoh: <code>x^3</code>, <code>5x^2</code>).</li>
+                            <li>Perkalian eksplisit boleh menggunakan tanda <code>*</code> (contoh: <code>3*x^2</code>).</li>
+                            <li>Operasi penjumlahan, pengurangan, dan konstanta (contoh: <code>-5x + 7</code>).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Banner Pesan Error -->
+                    <div id="error-container" class="error-banner hidden">
+                        <div class="error-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                        <div class="error-content">
+                            <strong class="error-title">Format Tidak Valid</strong>
+                            <p id="error-message" class="error-text"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KOLOM KANAN: Hasil Turunan & Grafik Koordinat -->
+                <section class="card output-card">
+                    <div class="card-header">
+                        <h2>Hasil Turunan</h2>
+                        <p class="card-description">Persamaan hasil turunan pertama dan visualisasi grafik koordinat interaktif.</p>
+                    </div>
+
+                    <!-- Area Ringkasan Persamaan -->
+                    <div id="result-box" class="result-box-wrapper">
+                        <div class="eq-row initial-eq">
+                            <span class="eq-label">Fungsi Asli:</span>
+                            <span id="initial-func-display" class="eq-value">f(x) = —</span>
+                        </div>
+                        <div class="eq-row derived-eq">
+                            <span class="eq-label">Turunan f'(x):</span>
+                            <span id="final-result-display" class="eq-value highlight">f'(x) = —</span>
+                        </div>
+                    </div>
+
+                    <!-- Area Grafik Koordinat Interaktif (Tinggi ~280px-300px) -->
+                    <div class="graph-wrapper">
+                        <div id="plotly-graph" class="graph-container"></div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- PENJELASAN LANGKAH PENYELESAIAN (Selebar Halaman) -->
+            <section id="steps-card" class="card steps-card hidden">
+                <div class="card-header">
+                    <h2>Langkah Penyelesaian</h2>
+                    <p class="card-description">Pembuktian dan penjelasan berbasis aturan kalkulus diferensial yang diterapkan secara runtut.</p>
+                </div>
+                <div id="steps-container" class="steps-wrapper"></div>
+            </section>
+
+            <!-- BAGIAN TEORI: LANDASAN TEORI TURUNAN (Gaya Panel SetLab) -->
+            <section class="card theory-card">
+                <div class="card-header">
+                    <h2>Landasan Teori Turunan</h2>
+                    <p class="card-description">Konsep dasar, rumus turunan polinomial, dan penerapannya dalam disiplin Ilmu Komputer.</p>
+                </div>
+
+                <!-- Grid Kartu Teori Pastel Mint Green -->
+                <div class="theory-grid">
+                    <div class="theory-item">
+                        <div class="theory-item-header">
+                            <span class="theory-badge">Konsep Dasar</span>
+                            <h3>Pengertian Turunan</h3>
+                        </div>
+                        <p>Turunan $f'(x)$ merepresentasikan laju perubahan instan dari fungsi $f(x)$ terhadap variabel $x$. Secara geometris, turunan menyatakan kemiringan (gradien) garis singgung kurva pada titik tertentu.</p>
+                    </div>
+
+                    <div class="theory-item">
+                        <div class="theory-item-header">
+                            <span class="theory-badge">Aturan Pangkat</span>
+                            <h3>Power Rule</h3>
+                        </div>
+                        <p>Jika terdapat suku berbentuk $f(x) = a \cdot x^n$ dengan $n$ bilangan bulat non-negatif, maka turunannya dirumuskan sebagai:</p>
+                        <div class="theory-formula">$$f'(x) = a \cdot n \cdot x^{n-1}$$</div>
+                    </div>
+
+                    <div class="theory-item">
+                        <div class="theory-item-header">
+                            <span class="theory-badge">Aturan Konstanta</span>
+                            <h3>Turunan Konstanta</h3>
+                        </div>
+                        <p>Nilai konstanta murni tidak mengalami perubahan terhadap variabel $x$. Oleh karena itu, turunan dari sebarang konstanta $c$ selalu bernilai nol:</p>
+                        <div class="theory-formula">$$\frac{d}{dx}[c] = 0$$</div>
+                    </div>
+
+                    <div class="theory-item">
+                        <div class="theory-item-header">
+                            <span class="theory-badge">Sifat Linear</span>
+                            <h3>Penjumlahan & Selisih</h3>
+                        </div>
+                        <p>Diferensial bersifat linear. Turunan dari penjumlahan atau pengurangan fungsi adalah jumlah atau selisih dari turunan masing-masing sukunya:</p>
+                        <div class="theory-formula">$$\frac{d}{dx}[f \pm g] = f'(x) \pm g'(x)$$</div>
+                    </div>
+
+                    <div class="theory-item theory-item-wide">
+                        <div class="theory-item-header">
+                            <span class="theory-badge badge-cs">Ilmu Komputer</span>
+                            <h3>Penerapan dalam Informatika</h3>
+                        </div>
+                        <p>Prinsip turunan digunakan secara luas dalam algoritma Informatika, meliputi optimasi <strong>Gradient Descent</strong> pada Machine Learning, kalkulasi kecepatan dan animasi grafik komputer 3D, pemrosesan sinyal digital, serta analisis kompleksitas algoritma numerik.</p>
+                    </div>
+                </div>
+
+                <!-- Panel Penjelasan Biru Muda di Bagian Bawah -->
+                <div class="theory-sky-box">
+                    <div class="sky-box-icon">💡</div>
+                    <div class="sky-box-content">
+                        <strong>Interpretasi Grafik Koordinat:</strong>
+                        <p>Nilai positif pada grafik $f'(x)$ (di atas sumbu X) menunjukkan bahwa kurva fungsi asli $f(x)$ sedang <em>naik (increasing)</em>. Sebaliknya, ketika $f'(x)$ bernilai negatif (di bawah sumbu X), kurva $f(x)$ sedang <em>turun (decreasing)</em>. Titik potong $f'(x) = 0$ menandakan titik puncak, lembah, atau titik stasioner pada fungsi $f(x)$.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    <script src="script.js"></script>
+</body>
+</html>
